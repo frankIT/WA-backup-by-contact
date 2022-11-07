@@ -51,6 +51,7 @@ if [ ${#DELETED[@]} -gt 0 ]; then
 
 		# mv is crazy faster but no way for files to preserve timestamps
 		# Should use a combination of date and touch to store and reassign mtime to the just moved file
+		# touch -d "$(date -R -r filename)"
 		# adb shell "mv \"${WA_CLONE_BCK}${RELPATH}\" \"$WA_SORTED_BCK${REPLY}/${RELPATH}\""
 
 		adb shell "cp --preserve=t \"${WA_CLONE_BCK}${RELPATH}\" \"$WA_SORTED_BCK${REPLY}/${RELPATH}\""
