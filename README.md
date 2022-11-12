@@ -10,4 +10,4 @@ wait for it to ask you the name of the folder to group the media in, and
 then delete from within WhatsApp the media you want to backup before press ENTER.
 
 
-It will then diffs the first folder clone with the current WA media folder, catching the deleted files names to group them in a named folder.
+It will then diffs the first folder clone with the current WA media folder, catching the deleted files names to group them in the named folder.
