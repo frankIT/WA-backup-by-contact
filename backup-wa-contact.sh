@@ -46,18 +46,23 @@ if [ ${#DELETED[@]} -gt 0 ]; then
 
 		echo ${RELPATH}
 		
-		# Ensure to have all subdirs or cp will fail
+		# Ensure to have all subdirs
 		adb shell "mkdir -p \"$WA_SORTED_BCK${REPLY}/${DIRS}\""
 
-		# mv is crazy faster but no way for files to preserve timestamps
-		# Should use a combination of date and touch to store and reassign mtime to the just moved file
-		# touch -d "$(date -R -r filename)"
-		# adb shell "mv \"${WA_CLONE_BCK}${RELPATH}\" \"$WA_SORTED_BCK${REPLY}/${RELPATH}\""
+		# ORIG_MTIME=$(adb shell "stat -c %y '${WA_CLONE_BCK}${RELPATH}'") 
 
-		adb shell "cp --preserve=t \"${WA_CLONE_BCK}${RELPATH}\" \"$WA_SORTED_BCK${REPLY}/${RELPATH}\""
-		adb shell "rm \"${WA_CLONE_BCK}${RELPATH}\""
+		adb shell "mv \"${WA_CLONE_BCK}${RELPATH}\" \"$WA_SORTED_BCK${REPLY}/${RELPATH}\""
+
+		# MOVED_MTIME=$(adb shell "stat -c %y \"$WA_SORTED_BCK${REPLY}/${RELPATH}\"")
+
+		# if [ "$ORIG_MTIME" != "$MOVED_MTIME" ]; then
+		# 	echo "Updating time \"$ORIG_MTIME\" to \"${REPLY}/${RELPATH}\""
+		# 	adb shell "touch -d \"$ORIG_MTIME\" \"$WA_SORTED_BCK${REPLY}/${RELPATH}\""
+		# fi 
+
 	done
 	echo "Done"
 else
-	echo "Looks like no file has been deleted from the WA source folder"
+	echo "Looks like no file has been deleted from the WA source folder."
+	echo "This can happen if you chose from WhatsApp not to remove all the copies of the media you're backing up, which has been forwarded within different contacts."
 fi
